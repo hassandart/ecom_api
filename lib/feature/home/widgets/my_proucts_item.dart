@@ -32,7 +32,11 @@ class MyProductItem extends StatelessWidget {
               width: double.infinity,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(12),
-                child: Image.asset(prodcuts.image, fit: BoxFit.cover),
+                child: // Ce code plante car product.image contient une URL Web ("https://...") et non un fichier local
+                Image.network(
+                  prodcuts.image, //  Accès direct sans 'widget.'
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
           ),
