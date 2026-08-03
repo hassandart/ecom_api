@@ -1,3 +1,4 @@
+import 'package:ecom_api/feature/home/views/payment_view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ecom_api/core/models/products_model.dart';
@@ -34,7 +35,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
           onPressed: () => Navigator.pop(context),
         ),
         title: const Text(
-          'Detail',
+          'Details',
           style: TextStyle(
             color: Colors.black,
             fontSize: 18,
@@ -58,22 +59,42 @@ class _ProductDetailViewState extends State<ProductDetailView> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 20),
                   // Image principale du café avec angles arrondis
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(16),
-                    child: Image.network(
-                      product.image,
-                      height: 220,
-                      width: double.infinity,
-                      fit: BoxFit.cover,
-                      errorBuilder: (_, __, ___) => Container(
-                        height: 220,
-                        color: Colors.grey,
-                        child: Icon(Icons.broken_image, size: 50),
+                  // Image principale du café avec angles arrondis
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(16),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withValues(alpha: 0.05),
+                          blurRadius: 10,
+                          offset: const Offset(0, 4),
+                        ),
+                      ],
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(16),
+                      child: AspectRatio(
+                        aspectRatio: 1 / 1, // 👈 Format carré parfait
+                        child: Image.network(
+                          product.image, // Ou product.image selon votre modèle
+                          width: double.infinity,
+                          fit: BoxFit.cover,
+                          alignment: Alignment.center,
+                          errorBuilder: (_, __, ___) => Container(
+                            color: Colors.grey[200],
+                            child: const Icon(
+                              Icons.broken_image,
+                              size: 45,
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                   ),
+
                   const SizedBox(height: 20),
 
                   // Titre et type
@@ -244,20 +265,23 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                           ),
                           elevation: 0,
                         ),
-                        onPressed: () {
-                          // Action du panier de votre CartProvider !
-                          context.read<CartProvider>().addToCart(product);
 
-                          // Notification de confirmation
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(
-                                '${product.name} ajouté au panier !',
-                              ),
-                              backgroundColor: const Color(0xFFC67C4E),
+                        onPressed: () {
+                          final cart = Provider.of<CartProvider>(
+                            context,
+                            listen: false,
+                          );
+                          cart.addToCart(widget.product);
+
+                          // Force la navigation vers la vue du panier
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const PaymentView(),
                             ),
                           );
                         },
+
                         child: const Text(
                           'Buy Now',
                           style: TextStyle(

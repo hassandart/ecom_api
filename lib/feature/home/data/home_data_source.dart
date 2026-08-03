@@ -13,10 +13,10 @@ class HomeRemoteDataSource {
 
   // GETTER UNIFIÉ : Plus de "getStaticCategories"
   List<CategoryModel> get categories => [
-    CategoryModel(id: 0, name: "All Coffee", slug: "all"),
-    CategoryModel(id: 1, name: "Machiato", slug: "groceries"),
-    CategoryModel(id: 2, name: "Latte", slug: "laptops"),
-    CategoryModel(id: 3, name: "Americano", slug: "fragrances"),
+    CategoryModel(id: 0, name: "All Products", slug: "all"),
+    CategoryModel(id: 1, name: "Groceries", slug: "groceries"),
+    CategoryModel(id: 2, name: "Laptops", slug: "laptops"),
+    CategoryModel(id: 3, name: "Fragrances", slug: "fragrances"),
   ];
 
   // Chargement des produits par catégorie
